@@ -34,7 +34,13 @@ def get_statistics():
     return redirect('http://' + compute_IP() + ':8080/' + request.path, code = 307)
 
 def compute_IP():
-      return min(working_nodes.keys(), key =(lambda k: working_nodes[k]))
+    minimum_load = min(working_nodes.values())
+    print("Minimum load: " + str(minimum_load))
+    possible_IPs = [k for k,v in working_nodes.items() if v == minimum_load]
+    print("Available IPs: " + str(possible_IPs))
+    selected_IP = random.choice(possible_IPs)
+    print("Selected IP: " + selected_IP)
+    return selected_IP
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port = 8080)
